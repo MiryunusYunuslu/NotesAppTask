@@ -18,5 +18,23 @@
         <action
             android:id="@+id/action_notesListFragment_to_addNoteFragment"
             app:destination="@id/addNoteFragment" />
+        <action
+            android:id="@+id/action_notesListFragment_to_noteDetailsFragment"
+            app:destination="@id/noteDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteDetailsFragment"
+        android:name="com.example.myapplication.ui.NoteDetailsFragment"
+        android:label="fragment_note_details"
+        tools:layout="@layout/fragment_note_details" >
+        <argument
+            android:name="noteId"
+            app:argType="string" />
+        <argument
+            android:name="noteTitle"
+            app:argType="string" />
+        <argument
+            android:name="noteDesc"
+            app:argType="string" />
     </fragment>
 </navigation>

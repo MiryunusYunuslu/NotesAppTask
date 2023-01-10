@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.adapter.NotesAdapter
 import com.example.myapplication.databinding.FragmentNotesListBinding
@@ -37,11 +38,25 @@ class NotesListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        binding.rvNotes.adapter = adapter
 
+        configureRecyclerView()
         configureFabAction()
         initObservers()
         viewModel.getAllNotes()
+    }
+
+    private fun configureRecyclerView() {
+        NotesAdapter.noteClickedEvent = { note ->
+            val action = NotesListFragmentDirections.actionNotesListFragmentToNoteDetailsFragment(
+                noteDesc = note.description,
+                noteId = note.noteId.toString(),
+                noteTitle = note.title
+            )
+
+            findNavController().navigate(action)
+        }
+
+        binding.rvNotes.adapter = adapter
     }
 
     private fun initObservers() {

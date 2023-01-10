@@ -1,7 +1,6 @@
 package com.example.myapplication.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -29,14 +28,13 @@ class NotesAdapter : ListAdapter<Note, NotesAdapter.NotesViewHolder>(NotesDiffCa
     class NotesViewHolder private constructor(val binding: ItemNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        fun bind(item: Note)= with(binding) {
+            tvNoteTitle.text = item.title
+            tvNoteDesc.text = item.description
 
-        fun bind(item: Note) {
-            binding.tvNoteTitle.text = item.title
-            binding.tvNoteDesc.text = item.description
-            if (binding.tvNoteTitle.text.isBlank())
-                binding.tvNoteTitle.visibility = View.GONE
-            else
-                binding.tvNoteTitle.visibility = View.VISIBLE
+            root.setOnClickListener {
+                noteClickedEvent?.invoke(item)
+            }
         }
 
         companion object {
@@ -46,6 +44,10 @@ class NotesAdapter : ListAdapter<Note, NotesAdapter.NotesViewHolder>(NotesDiffCa
                 return NotesViewHolder(binding)
             }
         }
+    }
+
+    companion object {
+        var noteClickedEvent: ((Note) -> Unit?)? = null
     }
 }
 
